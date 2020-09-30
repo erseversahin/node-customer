@@ -5,7 +5,6 @@ const {isTokenIncluded, getAccessTokenFromHeader} = require('../../helpers/autho
 const User = require("../../models/User").User;
 
 const getAccessToRoute = asyncErrorWrapper(async(req, res, next) => {
-
     const {JWT_SECRET_KEY} = process.env;
     if (!isTokenIncluded(req)) {
         return next(new CustomError('Henüz oturum açmadınız. Lütfen oturumunuzu yenileyin.'), 401)
@@ -19,6 +18,7 @@ const getAccessToRoute = asyncErrorWrapper(async(req, res, next) => {
                 new CustomError('Henüz oturum açmadınız. Lütfen oturumunuzu yenileyin 2.', 401)
             );
         }
+        
         req.user = {
             id: decoded.id,
             name: decoded.name,
@@ -41,6 +41,7 @@ const getAdminAccess = asyncErrorWrapper(async(req,res,next) => {
     return next();
 
 });
+
 module.exports = {
     getAccessToRoute,
     getAdminAccess

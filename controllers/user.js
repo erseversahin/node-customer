@@ -5,7 +5,7 @@ const asyncErrorWrapper = require("express-async-handler");
 
 
 const getUserProfile = asyncErrorWrapper(async (req, res, next) => {
-    const {id,access_token} = req.user;
+    const {id} = req.user;
     const data = await User.findById(id);
 
     return res.status(200)
@@ -99,4 +99,4 @@ const userRemove = asyncErrorWrapper(async (req, res, next) => {
 });
 
 
-module.exports = {getUserProfile,saveUserProfile,userAdd, getAllUser,getUser, userRemove};
+module.exports = {getUserProfile, saveUserProfile, userAdd, getAllUser, getUser, userRemove};
