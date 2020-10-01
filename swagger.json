@@ -1,0 +1,62 @@
+{
+  "swaggerDefinition": {
+    "swagger": "2.0",
+    "info": {
+      "title": "Customer API +",
+      "description": "Customer api with nodejs and express server.",
+      "termsOfService": "https://stebilisim.com/",
+      "contact": {
+        "name": "Şahin ERSEVER",
+        "email": "info@stebilisim.com"
+      },
+      "servers": ["http://localhost:5000"]
+    },
+    "basePath": "/api",
+    "schemes": [
+      "http"
+    ],
+    "securityDefinitions": {
+      "Bearer" : {
+        "type": "access_token",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
+    "paths": {
+      "/auth/login": {
+        "post": {
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "name",
+              "required": true,
+              "in": "body",
+              "type": "String"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Will send `Authenticated`"
+            },
+            "403": {
+              "description": "You do not have necessary permissions for the resource"
+            }
+          }
+        }
+      }
+    }
+  },
+  "apis": [
+    "routers/*.js"
+  ]
+}

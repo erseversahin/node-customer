@@ -7,7 +7,7 @@ const User = require("../../models/User").User;
 const getAccessToRoute = asyncErrorWrapper(async(req, res, next) => {
     const {JWT_SECRET_KEY} = process.env;
     if (!isTokenIncluded(req)) {
-        return next(new CustomError('Henüz oturum açmadınız. Lütfen oturumunuzu yenileyin.'), 401)
+        return next(new CustomError('Henüz oturum açmadınız. Lütfen oturumunuzu yenileyin.', 401))
     }
 
     const accessToken = getAccessTokenFromHeader(req);
