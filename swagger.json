@@ -1,6 +1,36 @@
 {
   "swaggerDefinition": {
-    "swagger": "2.0",
+    "openapi": "3.0.1",
+    "servers": [
+      {
+        "url": "http://localhost:{port}/{basePath}",
+        "description": "The production API server",
+        "variables": {
+
+          "port": {
+            "enum": [
+              "5000"
+            ],
+            "default": "5000"
+          },
+          "basePath": {
+            "default": "api"
+          }
+        }
+      }
+    ],
+    "components": {
+        "securitySchemes" : {
+          "BearerAuth": {
+            "type" : "http",
+            "schema" : "bearer",
+            "bearerFormat" : "JWT"
+          }
+        }
+    },
+    "security": {
+      "bearerAuth" : []
+    },
     "info": {
       "title": "Customer API +",
       "description": "Customer api with nodejs and express server.",
@@ -9,44 +39,62 @@
         "name": "Şahin ERSEVER",
         "email": "info@stebilisim.com"
       },
-      "servers": ["http://localhost:5000"]
-    },
-    "basePath": "/api",
-    "schemes": [
-      "http"
-    ],
-    "securityDefinitions": {
-      "Bearer" : {
-        "type": "access_token",
-        "name": "Authorization",
-        "in": "header"
-      }
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      },
+      "version": "1.0.0"
+
     },
     "paths": {
       "/auth/login": {
         "post": {
-          "security": [
-            {
-              "Bearer": []
-            }
-          ],
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "name",
-              "required": true,
-              "in": "body",
-              "type": "String"
-            }
-          ],
+          "requestBody": {
+            "description": "Pet object that needs to be added to the store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "email",
+                    "password"
+                  ],
+                  "properties" : {
+                    "email": {
+                      "type": "string",
+                      "example": "ersversahint@gmail.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "123456"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+
           "responses": {
             "200": {
               "description": "Will send `Authenticated`"
+            },
+            "401": {
+              "description": "You do not have necessary permissions for the resource"
+            }
+          }
+        }
+      },
+      "/user/profile/show": {
+        "get": {
+          "security": {
+            "bearerAuth" : []
+          },
+           "responses": {
+            "200": {
+              "description": "Will send `Authenticated`"
+            },
+            "401": {
+              "description": "You do not have necessary permissions for the resource"
             },
             "403": {
               "description": "You do not have necessary permissions for the resource"

@@ -5,6 +5,7 @@ const {isTokenIncluded, getAccessTokenFromHeader} = require('../../helpers/autho
 const User = require("../../models/User").User;
 
 const getAccessToRoute = asyncErrorWrapper(async(req, res, next) => {
+    console.log(req.headers);
     const {JWT_SECRET_KEY} = process.env;
     if (!isTokenIncluded(req)) {
         return next(new CustomError('Henüz oturum açmadınız. Lütfen oturumunuzu yenileyin.', 401))
@@ -15,7 +16,7 @@ const getAccessToRoute = asyncErrorWrapper(async(req, res, next) => {
     jwt.verify(accessToken, JWT_SECRET_KEY, (err, decoded) => {
         if (err) {
             return next(
-                new CustomError('Henüz oturum açmadınız. Lütfen oturumunuzu yenileyin 2.', 401)
+                new CustomError('Henüz oturum açmadınız. Lütfen oturumunuzu yenileyin.', 401)
             );
         }
         

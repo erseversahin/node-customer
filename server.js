@@ -15,9 +15,7 @@ const PORT = process.env.PORT;
 
 const swaggerDefinition = JSON.parse(fs.readFileSync( "./swagger.json" ));
 
-const swaggerOptions = swaggerDefinition;
-
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
+const swaggerDocs = swaggerJsDoc(swaggerDefinition);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
