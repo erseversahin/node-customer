@@ -7,6 +7,10 @@ const moment = require('moment');
 
 const UserSchema = new Schema({
 
+    tckn : {
+        type : String,
+        required:[true,"Please provide a TCKN"]
+    },
     name : {
         type : String,
         required:[true,"Please provide a name"]
