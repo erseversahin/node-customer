@@ -9,6 +9,7 @@ const UserSchema = new Schema({
 
     tckn : {
         type : String,
+        unique : true,
         required:[true,"Please provide a TCKN"]
     },
     name : {
@@ -57,7 +58,10 @@ UserSchema.methods.generateJwtFromUser = function(){
         expiresIn: JWT_EXPIRE
     });
 };
+
+
 UserSchema.pre('save', function (next) {
+
     if (!this.isModified('password')) {
         next();
     }
@@ -70,19 +74,7 @@ UserSchema.pre('save', function (next) {
         });
     });
 });
-/*UserSchema.pre('findOneAndUpdate', function (next) {
-    if (!this.isModified('password')) {
-        next();
-    }
-    bcrypt.genSalt(10, (err, salt) => {
-        if (err) next(err);
-        bcrypt.hash(this.password, salt, (err, hash) => {
-            if (err) next(err);
-            this.password = hash;
-            next();
-        });
-    });
-});*/
+
 
 module.exports.User = mongoose.model("User", UserSchema);
 

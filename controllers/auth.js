@@ -13,9 +13,9 @@ const asyncErrorWrapper = require("express-async-handler");
 
 const register = asyncErrorWrapper(async (req, res, next) => {
 
-    const {name, email, password, role} = req.body;
+    const {tckn,name, email, password, role} = req.body;
 
-    const user = await User.create({name, email, password, role});
+    const user = await User.create({tckn, name, email, password, role});
 
     sendJwtToClient(user, res);
 });

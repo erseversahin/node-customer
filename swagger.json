@@ -1,33 +1,6 @@
 {
   "swaggerDefinition": {
-    "openapi": "3.0.1",
-    "servers": [
-      {
-        "url": "http://localhost:{port}/{basePath}",
-        "description": "The production API server",
-        "variables": {
-
-          "port": {
-            "enum": [
-              "5000"
-            ],
-            "default": "5000"
-          },
-          "basePath": {
-            "default": "api"
-          }
-        }
-      }
-    ],
-    "components": {
-      "securitySchemes" : {
-        "BearerAuth": {
-          "type" : "http",
-          "schema" : "bearer",
-          "bearerFormat" : "JWT"
-        }
-      }
-    },
+    "swagger": "2.0",
     "info": {
       "title": "Customer API +",
       "description": "Customer api with nodejs and express server.",
@@ -36,40 +9,64 @@
         "name": "Şahin ERSEVER",
         "email": "info@stebilisim.com"
       },
-      "license": {
-        "name": "Apache 2.0",
-        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-      },
-      "version": "1.0.0"
-
+      "servers": ["http://localhost:5000"]
+    },
+    "host": "localhost:5000",
+    "basePath": "/api",
+    "schemes": [
+      "http"
+    ],
+    "securityDefinitions": {
+      "BearerAuth": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "schema": "bearer",
+        "bearerFormat": "JWT"
+      }
     },
     "paths": {
       "/auth/login": {
         "post": {
-          "requestBody": {
-            "description": "Pet object that needs to be added to the store",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "required": [
-                    "email",
-                    "password"
-                  ],
-                  "properties" : {
-                    "email": {
-                      "type": "string",
-                      "example": "ersversahint@gmail.com"
-                    },
-                    "password": {
-                      "type": "string",
-                      "example": "123456"
-                    }
+          "security": {
+            "Bearer": {
+              "type": "apiKey",
+              "name": "Authorization",
+              "in": "header"
+            }
+          },
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Requests are authenticated using the Authorization header and value Bearer: {{token}}. with a valid JWT.",
+              "required": true,
+              "type": "String",
+              "schema": {
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties" : {
+                  "email": {
+                    "type": "string",
+                    "example": "ersversahint@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456"
                   }
                 }
               }
-            },
-            "required": true
-          },
+            }
+          ],
 
           "responses": {
             "200": {
@@ -84,16 +81,25 @@
       "/user/profile/show": {
         "get": {
           "security": {
-            "bearerAuth" : []
+            "Bearer": {
+              "type": "apiKey",
+              "name": "Authorization",
+              "in": "header"
+            }
           },
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+
+
           "responses": {
             "200": {
               "description": "Will send `Authenticated`"
             },
             "401": {
-              "description": "You do not have necessary permissions for the resource"
-            },
-            "403": {
               "description": "You do not have necessary permissions for the resource"
             }
           }
