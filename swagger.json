@@ -3,7 +3,7 @@
     "openapi": "3.0.1",
     "servers": [
       {
-        "url": "http://localhost:{port}/{basePath}",
+        "url": "https://sahin-node-app2.herokuapp.com/{basePath}",
         "description": "The production API server",
         "variables": {
 
