@@ -8,6 +8,10 @@ To get the Node server running locally:
 - Set environment variables in `config.env` under `./config/env`
   * Set `MONGO_URI = <YOUR_MONGO_URI>`
   * Set `JWT_SECRET_KEY = <YOUR_SECRET_KEY>`
+  * Set `JWT_EXPIRE = <AUTHENTICATION_EXPIRE_TIME>`
+  * Set `JWT_COOKIE = <AUTHENTICATION_EXPIRE_TIME>`
+  * Set `PORT = <YOUR_PORT>`
+  * Set `NODE_ENV = <DEVELOPMENT | PRODUCTION>`
 
 
 # Code Overview
