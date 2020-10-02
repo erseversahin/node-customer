@@ -124,7 +124,7 @@
             "user"
           ],
           "summary": "Create user",
-          "description": "This can only be done by the logged in user.",
+          "description": "This can only be done by the logged in user and requires admin role.",
           "consumes": [
             "application/json"
           ],
@@ -260,7 +260,7 @@
             "user"
           ],
           "summary": "Remove a single user",
-          "description": "This can only be done by the logged in user.",
+          "description": "This can only be done by the logged in user and requires admin role.",
           "consumes": [
             "application/json"
           ],
