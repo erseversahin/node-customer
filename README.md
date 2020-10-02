@@ -38,7 +38,7 @@ To get the Node server running locally:
 
 ## Error Handling
 
-In `middlewares/errors/errorHandler.js`, I define a error-handling middleware for handling Mongoose's errors and our own errors.
+In `middlewares/errors/customErrorHandler.js`, I define a error-handling middleware for handling Mongoose's errors and our own errors.
 
 ## Authentication
 
