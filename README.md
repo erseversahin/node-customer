@@ -41,7 +41,3 @@ In `middlewares/errors/errorHandler.js`, I define a error-handling middleware fo
 Requests are authenticated using the `Authorization` header and value `Bearer: {{token}}`. with a valid JWT. 
 
 I define express middlewares in `middlewares/authorization/auth.js` that can be used to authenticate requests. The `required` middlewares returns `401` or `403`.
-
-## API Specifications
-
-Detailed documentation can be found in [here](./endpoints.md). 
