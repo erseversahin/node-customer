@@ -8,21 +8,89 @@
         "email": "info@stebilisim.com"
       }
     },
-    "host": "https://node-customer-server.herokuapp.com/",
+    "host": "node-customer-server.herokuapp.com",
     "basePath": "/api",
     "schemes": [
       "https",
       "http"
     ],
     "paths": {
-      "/user": {
+      "/auth/login": {
         "post": {
           "tags": [
-            "user"
+            "auth"
           ],
-          "summary": "Create user",
-          "description": "This can only be done by the logged in user.",
-          "operationId": "createUser",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": {
+                "type": "object"
+              },
+              "description": "Requests are authenticated using the Authorization header and value Bearer: {{token}}. with a valid JWT.",
+              "required": true,
+              "type": "object",
+              "schema": {
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "ersversahint@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Will send `Authenticated`"
+            },
+            "401": {
+              "description": "You do not have necessary permissions for the resource"
+            }
+          }
+        }
+      },
+      "/auth/logout": {
+        "get": {
+          "tags": [
+            "auth"
+          ],
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/auth/register": {
+        "post": {
+          "tags": [
+            "auth"
+          ],
+          "summary": "Register",
+          "description": "Register functionality.",
           "consumes": [
             "application/json"
           ],
@@ -41,8 +109,89 @@
             }
           ],
           "responses": {
-            "default": {
-              "description": "successful operation"
+            "200": {
+              "description": "Success"
+            },
+            "400": {
+              "description": "Bad request"
+            }
+          }
+        }
+      },
+      "/user": {
+        "post": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Create user",
+          "description": "This can only be done by the logged in user.",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Created user object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Get all users",
+          "description": "This can only be done by the logged in user.",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/user/:id": {
+        "get": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Get single user",
+          "description": "This can only be done by the logged in user.",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
             }
           }
         },
@@ -62,17 +211,354 @@
           "parameters": [
             {
               "in": "body",
-              "name": "body",
-              "description": "Created user object",
+              "name": {
+                "type": "object"
+              },
+              "description": "Requests are authenticated using the Authorization header and value Bearer: {{token}}. with a valid JWT.",
               "required": true,
+              "type": "object",
               "schema": {
-                "$ref": "#/definitions/UserUpdate"
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Şahin ERSEVER"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "ersversahint@gmail.com"
+                  },
+                  "role": {
+                    "type": "string",
+                    "example": "admin",
+                    "enum": [
+                      "user",
+                      "admin"
+                    ]
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                }
               }
             }
           ],
           "responses": {
-            "default": {
-              "description": "successful operation"
+            "200": {
+              "description": "Success"
+            },
+            "400": {
+              "description": "Bad request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Remove a single user",
+          "description": "This can only be done by the logged in user.",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/user/profile": {
+        "get": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Get Profile",
+          "description": "Get profile who user logged in",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Update Profile",
+          "description": "Update profile who user logged in",
+          "operationId": "updateUser",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": {
+                "type": "object"
+              },
+              "description": "Requests are authenticated using the Authorization header and value Bearer: {{token}}. with a valid JWT.",
+              "required": true,
+              "type": "object",
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Şahin ERSEVER"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "ersversahint@gmail.com"
+                  },
+                  "role": {
+                    "type": "string",
+                    "example": "admin",
+                    "enum": [
+                      "user",
+                      "admin"
+                    ]
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "400": {
+              "description": "Bad request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/account": {
+        "post": {
+          "tags": [
+            "account"
+          ],
+          "summary": "Create an account",
+          "description": "This can only be done by the logged in user.",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Created user object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Account"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/account/:id": {
+        "put": {
+          "tags": [
+            "account"
+          ],
+          "summary": "Update an account",
+          "description": "This can only be done by the logged in user.",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Created user object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Account"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "account"
+          ],
+          "summary": "Get an account",
+          "description": "This can only be done by the logged in user.",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "account"
+          ],
+          "summary": "Remove an account",
+          "description": "This can only be done by the logged in user.",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/account/user/:id": {
+        "get": {
+          "tags": [
+            "account"
+          ],
+          "summary": "List a user's all accounts.",
+          "description": "This can only be done by the logged in user.",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/account/list/all": {
+        "get": {
+          "tags": [
+            "account"
+          ],
+          "summary": "List your own accounts all.",
+          "description": "This can only be done by the logged in user.",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/account/transfer/send": {
+        "post": {
+          "tags": [
+            "account"
+          ],
+          "summary": "For money transfer.",
+          "description": "- This can only be done by the logged in user.\n- User could be send a money.\n- You must have enough balance for the transfer.\n- Transfer could be with only same currency.",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Balance transfer",
+              "required": true,
+              "schema": {
+                "properties": {
+                  "senderAccountId": {
+                    "description": "Sender account ID",
+                    "type": "string"
+                  },
+                  "receiverAccountId": {
+                    "description": "Receiver account ID",
+                    "type": "string"
+                  },
+
+                  "amount": {
+                    "type": ["number"]
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
             }
           }
         }
@@ -83,38 +569,53 @@
         "type": "object",
         "properties": {
           "tckn": {
-            "type": "string"
+            "type": "string",
+            "example": "18355268456"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "Şahin ERSEVER"
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "example": "ersversahint@gmail.com"
           },
           "role": {
             "type": "string",
-            "enum": ["user", "admin"]
+            "example": "admin",
+            "enum": [
+              "user",
+              "admin"
+            ]
           },
           "password": {
-            "type": "string"
+            "type": "string",
+            "example": "123456"
           }
         }
       },
-      "UserUpdate": {
+      "Account": {
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string"
+          "accountname": {
+            "type": "String",
+            "example": "Şahin ERSEVER"
           },
-          "email": {
-            "type": "string"
+          "user": {
+            "type": "ObjectId"
           },
-          "role": {
-            "type": "string",
-            "enum": ["user", "admin"]
+          "currency": {
+            "type": "String",
+            "example": "TRY",
+            "enum": [
+              "TRY",
+              "USD",
+              "EUR"
+            ]
           },
-          "password": {
-            "type": "string"
+          "balance": {
+            "type": "Number",
+            "example": 1000
           }
         }
       }

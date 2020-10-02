@@ -38,8 +38,8 @@ const getAccount = asyncErrorWrapper(async (req, res, next) => {
 
 });
 const getAllAccount = asyncErrorWrapper(async (req, res, next) => {
-    const {id} = req.body;
-    const data = await Account.find({id:id});
+    const {id} = req.user;
+    const data = await Account.find({user:id});
 
     return res.status(200)
         .json({
@@ -51,8 +51,8 @@ const getAllAccount = asyncErrorWrapper(async (req, res, next) => {
 });
 const getAllUserAccount = asyncErrorWrapper(async (req, res, next) => {
     const {id} = req.params;
-    const data = await Account.find({id:id});
-
+    const data = await Account.find({user:id});
+    console.log('asda');
     return res.status(200)
         .json({
             success: true,

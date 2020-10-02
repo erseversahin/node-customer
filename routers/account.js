@@ -7,8 +7,8 @@ const { addAccount, getAccount, getAllAccount, getAllUserAccount,updateAccount, 
 
 router.post('/', [getAccessToRoute],   addAccount);
 router.get('/:id', [checkAccountExist, getAccessToRoute],   getAccount);
-router.get('/list/all', [getAccessToRoute],  getAllAccount);
-router.get('/user/:id', [checkAccountExist,getAccessToRoute],  getAllUserAccount);
+router.get('/list/all', getAccessToRoute,  getAllAccount);
+router.get('/user/:id', getAccessToRoute,  getAllUserAccount);
 
 
 router.put('/:id', [checkAccountExist,getAccessToRoute],   updateAccount);
