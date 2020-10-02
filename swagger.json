@@ -2,39 +2,27 @@
   "swaggerDefinition": {
     "swagger": "2.0",
     "info": {
-      "title": "Customer API +",
-      "description": "Customer api with nodejs and express server.",
-      "termsOfService": "https://stebilisim.com/",
+      "version": "1.0.1",
+      "title": "Costumer Accounts - Express restAPI",
       "contact": {
-        "name": "Şahin ERSEVER",
         "email": "info@stebilisim.com"
-      },
-      "servers": ["http://localhost:5000"]
-    },
-    "host": "localhost:5000",
-    "basePath": "/api",
-    "schemes": [
-      "http"
-    ],
-    "securityDefinitions": {
-      "BearerAuth": {
-        "type": "apiKey",
-        "name": "Authorization",
-        "in": "header",
-        "schema": "bearer",
-        "bearerFormat": "JWT"
       }
     },
+    "host": "https://sahin-node-app2.herokuapp.com",
+    "basePath": "/api",
+    "schemes": [
+      "https",
+      "http"
+    ],
     "paths": {
-      "/auth/login": {
+      "/user": {
         "post": {
-          "security": {
-            "Bearer": {
-              "type": "apiKey",
-              "name": "Authorization",
-              "in": "header"
-            }
-          },
+          "tags": [
+            "user"
+          ],
+          "summary": "Create user",
+          "description": "This can only be done by the logged in user.",
+          "operationId": "createUser",
           "consumes": [
             "application/json"
           ],
@@ -42,69 +30,98 @@
             "application/json"
           ],
           "parameters": [
-
             {
               "in": "body",
               "name": "body",
-              "description": "Requests are authenticated using the Authorization header and value Bearer: {{token}}. with a valid JWT.",
+              "description": "Created user object",
               "required": true,
-              "type": "String",
               "schema": {
-                "required": [
-                  "email",
-                  "password"
-                ],
-                "properties" : {
-                  "email": {
-                    "type": "string",
-                    "example": "ersversahint@gmail.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "123456"
-                  }
-                }
+                "$ref": "#/definitions/User"
               }
             }
           ],
-
           "responses": {
-            "200": {
-              "description": "Will send `Authenticated`"
-            },
-            "401": {
-              "description": "You do not have necessary permissions for the resource"
+            "default": {
+              "description": "successful operation"
             }
           }
-        }
-      },
-      "/user/profile/show": {
-        "get": {
-          "security": {
-            "Bearer": {
-              "type": "apiKey",
-              "name": "Authorization",
-              "in": "header"
-            }
-          },
+        },
+        "put": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Update user",
+          "description": "This can only be done by the logged in user and requires admin role.",
+          "operationId": "updateUser",
           "consumes": [
             "application/json"
           ],
           "produces": [
             "application/json"
           ],
-
-
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Created user object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserUpdate"
+              }
+            }
+          ],
           "responses": {
-            "200": {
-              "description": "Will send `Authenticated`"
-            },
-            "401": {
-              "description": "You do not have necessary permissions for the resource"
+            "default": {
+              "description": "successful operation"
             }
           }
         }
       }
+    },
+    "definitions": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "tckn": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["user", "admin"]
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "UserUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["user", "admin"]
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "externalDocs": {
+      "description": "See on github.",
+      "url": "https://github.com/sahinersever93/node-customer"
     }
   },
   "apis": [
